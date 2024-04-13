@@ -1,10 +1,11 @@
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view , permission_classes
 from rest_framework.response import Response
-from .serializers import RegisterUserSerializer , LoginSerializer
+from .serializers import RegisterUserSerializer , LoginSerializer , UserSerializer
 from .models import User
 from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.permissions import IsAuthenticated
 
 
 
@@ -54,6 +55,14 @@ def refreshToken(request):
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST) 
         return Response({'access': str(refresh.access_token) , 'refresh':str(new_refresh_token)}, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def getLoginUser(request):
+     user = UserSerializer(request.user).data
+     return Response(user)
+     
     
     
     
