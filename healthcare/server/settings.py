@@ -15,6 +15,7 @@ import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+print(BASE_DIR)
 
 
 # Quick-start development settings - unsuitable for production
@@ -39,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'authentication',
+    'healthcare.authentication',
 ]
 
 MIDDLEWARE = [
@@ -58,7 +59,7 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
 }
-ROOT_URLCONF = 'server.urls'
+ROOT_URLCONF = 'healthcare.server.urls'
 
 TEMPLATES = [
     {
@@ -76,7 +77,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'server.wsgi.application'
+WSGI_APPLICATION = 'healthcare.server.wsgi.application'
 
 
 # Database
@@ -85,11 +86,16 @@ WSGI_APPLICATION = 'server.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('NAME'),
-        'USER': os.environ.get('USER'),
-        'PASSWORD': os.environ.get('PASS'),
-        'HOST': os.environ.get('HOST'),
-        'PORT': os.environ.get('PORT'),
+        'USER':'healthcare',
+        'NAME':'healthdb',
+        'HOST':'healthdb.postgres.database.azure.com',
+        'PORT':'5432',
+        'PASSWORD':'Admin123'
+        # 'NAME': os.environ.get('NAME'),
+        # 'USER': os.environ.get('USER'),
+        # 'PASSWORD': os.environ.get('PASS'),
+        # 'HOST': os.environ.get('HOST'),
+        # 'PORT': os.environ.get('PORT'),
 
      
     }
