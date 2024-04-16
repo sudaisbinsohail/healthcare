@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'healthcare.authentication',
-    'healthcare.healthprofile'
+    'healthcare.healthprofile',
+    'healthcare.agora_video_call'
 ]
 
 MIDDLEWARE = [
