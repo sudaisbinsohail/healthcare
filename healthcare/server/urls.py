@@ -18,10 +18,12 @@ from django.contrib import admin
 from django.urls import path , include
 from healthcare.authentication import urls as auth_urls 
 from healthcare.healthprofile import urls as healthprofile_urls
+from healthcare.agora_video_call import urls as agora_video_call_urls
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(auth_urls)),
     path('api/', include(healthprofile_urls)),
+    path('api/', include(agora_video_call_urls)),
 ]
