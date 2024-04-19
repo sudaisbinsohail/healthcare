@@ -6,6 +6,7 @@ from datetime import datetime, timedelta
 import uuid 
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+import pusher
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -33,6 +34,23 @@ def generate_agora_token(request):
         'channel_name': channel_name,
         'exp': expiration_time
     }, AGORA_APP_CERTIFICATE, algorithm='HS256')
+
+      
+    pusher_client = pusher.Pusher(
+       app_id = "1790808",
+       key = "7eea74474e4ac958eed6",
+       secret = "5b301ddeca15cfb9abaf",
+       cluster = "ap2",
+       ssl=True
+    )
+
+    
+    pusher_client.trigger('video-call', 'start-call', {
+        'sender_id': sender_id,
+        'receiver_id': receiver_id,
+        'channel_name': channel_name,
+        'token': token
+    })
 
     return Response({'token': token, 'channel_name': channel_name, 'app_id':AGORA_APP_ID}, status=status.HTTP_200_OK)
 
