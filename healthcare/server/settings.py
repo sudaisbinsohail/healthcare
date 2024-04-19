@@ -139,7 +139,8 @@ AUTH_USER_MODEL = 'authentication.User'
 
 ALLOWED_HOSTS = ['*']
 CORS_ALLOWED_ORIGINS = [
-    '*',
+    'http://*',
+    'https://*',
 ]
 
 
