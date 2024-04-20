@@ -11,7 +11,7 @@
 
     <script>
         function sendPostRequest() {
-            const url = 'https://healthcarebackend.azurewebsites.net/api/login-user/'; // Replace with your actual API endpoint
+            const url = 'https://healthcarebackend.azurewebsites.net/api/login-user/';
             const data = {
                 email: 'test@gmail.com',
                 password: '123456'
@@ -22,12 +22,15 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: data,
-              
+                body: JSON.stringify(data) // Convert data object to JSON string
             })
             .then(response => {
                 console.log('Response status:', response.status);
-                alert('POST request sent successfully!');
+                if (response.ok) {
+                    alert('POST request sent successfully!');
+                } else {
+                    alert('Error sending POST request!');
+                }
             })
             .catch(error => {
                 console.error('Error:', error);
