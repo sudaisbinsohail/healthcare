@@ -52,14 +52,6 @@ def generate_agora_token(request):
         'token': token
     })
 
-    pusher_client.notify([receiver_id], {
-            'fcm': {
-                'notification': {
-                    'title': 'Incoming Call',
-                    'body': 'You have an incoming video call.',
-                    'click_action': 'FLUTTER_NOTIFICATION_CLICK',
-                },
-            },
-        })
+
     return Response({'token': token, 'channel_name': channel_name, 'app_id':AGORA_APP_ID}, status=status.HTTP_200_OK)
 
