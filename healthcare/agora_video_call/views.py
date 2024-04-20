@@ -44,7 +44,6 @@ def generate_agora_token(request):
        ssl=True
     )
 
-    print(pusher_client)
     
     pusher_client.trigger('video-call', 'start-call', {
         'sender_id': sender_id,
