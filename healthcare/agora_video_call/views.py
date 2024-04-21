@@ -62,5 +62,5 @@ def generate_agora_token(request):
 
 #helper to generate random string
 def generate_random_string(length):
-    letters_and_digits = string.ascii_letters + string.digits
+    letters_and_digits = string.ascii_letters
     return ''.join(random.choice(letters_and_digits) for _ in range(length))
