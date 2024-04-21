@@ -17,12 +17,16 @@ def generate_agora_token(request):
     user = request.user 
     sender_id= user.id 
     receiver_id = request.data.get('receiver_id', None)
+    agora_uid =  request.data.get('agora_uid', None)
   
 
     if not sender_id or not receiver_id:
         sender_id =1
         receiver_id=2
         # return Response({'error': 'Please provide sender and receiver id'}, status=status.HTTP_400_BAD_REQUEST)
+
+    if not agora_uid:
+        agora_uid = 0 
 
     # channel_name = f'call-{uuid.uuid4()}-{sender_id}-{receiver_id}' 
     channel_name = generate_random_string(12)
@@ -33,7 +37,7 @@ def generate_agora_token(request):
     expiration_time = datetime.utcnow() + timedelta(hours=1)
     token = jwt.encode({
         'app_id': AGORA_APP_ID,
-        'uid': sender_id,
+        'uid': agora_uid,
         'channel_name': channel_name,
         'exp': expiration_time
     }, AGORA_APP_CERTIFICATE, algorithm='HS256')
