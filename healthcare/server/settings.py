@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'healthcare.healthprofile',
     'healthcare.agora_video_call',
     'corsheaders',
+    'healthcare.user',
+    'healthcare.doctors'
 ]
 
 MIDDLEWARE = [

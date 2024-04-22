@@ -6,6 +6,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import IsAuthenticated
+from healthcare.helper.responses import success_response
 
 
 
@@ -17,7 +18,7 @@ def register(request):
         serializer = RegisterUserSerializer(data = request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response({"data":serializer.data},status.HTTP_201_CREATED)
+            return Response(success_response(message="Account created successfully", data=serializer.data), status=status.HTTP_201_CREATED)
         return Response({'error':serializer.errors },status.HTTP_404_NOT_FOUND)
     except Exception as e:
          return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -33,7 +34,14 @@ def login(request):
         if serializer.is_valid():
             user = serializer.validated_data["user"]
             refresh = RefreshToken.for_user(user)
-            return Response({"refresh": str(refresh), "access": str(refresh.access_token), 'user':serializer.data})
+            user_data = {
+                 "refresh":str(refresh),
+                 "access":str(refresh.access_token),
+                 'user':serializer.data
+
+            }
+            return Response(success_response(message="User Login Successfully", data=user_data), status=status.HTTP_201_CREATED)
+            
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
@@ -61,7 +69,8 @@ def refreshToken(request):
 @permission_classes([IsAuthenticated])
 def getLoginUser(request):
      user = UserSerializer(request.user).data
-     return Response(user)
+     return Response(success_response(message="User details fetch successfully", data=user), status=status.HTTP_201_CREATED)
+     
      
     
     

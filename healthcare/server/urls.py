@@ -19,6 +19,8 @@ from django.urls import path , include
 from healthcare.authentication import urls as auth_urls 
 from healthcare.healthprofile import urls as healthprofile_urls
 from healthcare.agora_video_call import urls as agora_video_call_urls
+from healthcare.user import urls as user_url
+from healthcare.doctors import urls as doctor_url
 
 
 urlpatterns = [
@@ -26,4 +28,6 @@ urlpatterns = [
     path('api/', include(auth_urls)),
     path('api/', include(healthprofile_urls)),
     path('api/', include(agora_video_call_urls)),
+    path('api/', include(user_url)),
+    path('api/', include(doctor_url)),
 ]
