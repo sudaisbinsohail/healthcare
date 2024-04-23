@@ -9,6 +9,7 @@ from rest_framework.response import Response
 import pusher
 import string
 import random
+from agora_token_builder import RtcTokenBuilder
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -35,12 +36,20 @@ def generate_agora_token(request):
     AGORA_APP_CERTIFICATE = '49a559abc1ff4cc0a6cec32d508fb081'
     
     expiration_time = datetime.utcnow() + timedelta(hours=1)
-    token = jwt.encode({
-        'app_id': AGORA_APP_ID,
-        'uid': agora_uid,
-        'channel_name': channel_name,
-        'exp': expiration_time
-    }, AGORA_APP_CERTIFICATE, algorithm='HS256')
+    # token = jwt.encode({
+    #     'app_id': AGORA_APP_ID,
+    #     'uid': agora_uid,
+    #     'channel_name': channel_name,
+    #     'exp': expiration_time
+    # }, AGORA_APP_CERTIFICATE, algorithm='HS256')
+
+    token = RtcTokenBuilder.buildTokenWithAccount(
+        AGORA_APP_ID,
+        AGORA_APP_CERTIFICATE,
+        channel_name,
+        account = 'user_account',
+        role =0 ,
+        privilegeExpiredTs = 3600 )
 
       
     # pusher_client = pusher.Pusher(

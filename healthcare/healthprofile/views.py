@@ -36,7 +36,7 @@ def get_medical_condition(request):
             medical_condition = MedicalCondition.objects.all()
             medical_condition = MedicalConditionSerializer(medical_condition,many=True)
             return Response(success_response(message="Medical Condition Fetch Successfully", data=medical_condition.data), status=status.HTTP_201_CREATED)
-            return Response(medical_condition.data, status=status.HTTP_200_OK)
+        
 
 
 @api_view(['GET'])
@@ -47,5 +47,12 @@ def get_specific_medication(request):
             return Response(success_response(message="Specific Condition Fetch Successfully", data=specific_medication.data), status=status.HTTP_201_CREATED)
        
 
-
-
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_health_profile(request):
+        user_id = request.user.id
+        print(user_id)
+        query_set = HealthProfile.objects.filter(user_id = user_id)
+        health_profile = GetHealthProfileSerializer(query_set,many=True)
+        return Response(success_response(message="User data Shown successfully",data= health_profile.data), status=status.HTTP_200_OK)
+        

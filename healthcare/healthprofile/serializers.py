@@ -1,6 +1,7 @@
 
 from rest_framework import serializers
 from .models import HealthProfile, Allergy , MedicalCondition , SpecificMedication
+from healthcare.authentication.serializers import UserSerializer
 
 class AllergySerializer(serializers.ModelSerializer):
     class Meta:
@@ -37,4 +38,15 @@ class HealthProfileSerializer(serializers.ModelSerializer):
         health_profile.medical_condition.set(medication_condition)
         health_profile.specific_medication.set(specific_medication)
         return health_profile
+    
+
+class GetHealthProfileSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+    allergies = AllergySerializer(many=True)
+    medical_condition = MedicalConditionSerializer(many=True)
+    specific_medication = SpecificMedicationSerializer(many=True)
+
+    class Meta:
+        model = HealthProfile
+        fields = '__all__'
     
