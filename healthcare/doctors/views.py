@@ -7,6 +7,7 @@ from rest_framework.decorators import api_view , permission_classes
 from rest_framework.permissions import IsAuthenticated
 
 
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def all_doctors_view(request):
@@ -50,8 +51,22 @@ def all_doctors_view(request):
             'price': str(doctor.price) if doctor.price else None,
             'specializations': [specialization.specialization for specialization in doctor.specialization.all()],
             'personal_experiences': [{'title': experience.title, 'description': experience.description} for experience in doctor.personalexperience_set.all()],
-            'availability': [{'date': availability.date, 'start_time': availability.start_time, 'end_time': availability.end_time} for availability in doctor.doctoravaliability_set.all()]
+            # 'availability': [{'date': availability.date, 'start_time': availability.start_time, 'end_time': availability.end_time} for availability in doctor.doctoravaliability_set.all()]
         })
 
     return JsonResponse(success_response(message="Doctors Shown successfully", data=doctor_data), status=status.HTTP_200_OK)
+
+
+
+
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_doctor_slots(request):
+    doctor_id = request.GET.get('doctor_id')
+    doctor_profile_id = DoctorProfile.objects.get(doctor_id = doctor_id)
+    print(doctor_id)
+    print(doctor_profile_id)
+
 

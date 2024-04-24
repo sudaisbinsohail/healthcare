@@ -26,7 +26,7 @@ def create_health_profile(request):
 def get_allergies(request):
             allergies = Allergy.objects.all()
             allergies = AllergySerializer(allergies,many=True)
-            return Response(success_response(message="Allergies Fetch Successfully", data=allergies.data), status=status.HTTP_201_CREATED)
+            return Response(success_response(message="Allergies Fetch Successfully", data=allergies.data), status=status.HTTP_200_OK)
 
 
 
@@ -35,7 +35,7 @@ def get_allergies(request):
 def get_medical_condition(request):
             medical_condition = MedicalCondition.objects.all()
             medical_condition = MedicalConditionSerializer(medical_condition,many=True)
-            return Response(success_response(message="Medical Condition Fetch Successfully", data=medical_condition.data), status=status.HTTP_201_CREATED)
+            return Response(success_response(message="Medical Condition Fetch Successfully", data=medical_condition.data), status=status.HTTP_200_OK)
         
 
 
@@ -44,7 +44,7 @@ def get_medical_condition(request):
 def get_specific_medication(request):
             specific_medication = SpecificMedication.objects.all()
             specific_medication = SpecificMedicationSerializer(specific_medication,many=True)
-            return Response(success_response(message="Specific Condition Fetch Successfully", data=specific_medication.data), status=status.HTTP_201_CREATED)
+            return Response(success_response(message="Specific Condition Fetch Successfully", data=specific_medication.data), status=status.HTTP_200_OK)
        
 
 @api_view(['GET'])
