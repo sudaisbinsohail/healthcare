@@ -53,7 +53,6 @@ def all_doctors_view(request):
             'price': str(doctor.price) if doctor.price else None,
             'specializations': [specialization.specialization for specialization in doctor.specialization.all()],
             'personal_experiences': [{'title': experience.title, 'description': experience.description} for experience in doctor.personalexperience_set.all()],
-            # 'availability': [{'date': availability.date, 'start_time': availability.start_time, 'end_time': availability.end_time} for availability in doctor.doctoravaliability_set.all()]
         })
 
     return JsonResponse(success_response(message="Doctors Shown successfully", data=doctor_data), status=status.HTTP_200_OK)
@@ -114,3 +113,20 @@ def get_doctor_slots(request):
     return JsonResponse(success_response(message="Doctors Avaliability Timings successfully", data=available_slots_by_day), status=status.HTTP_200_OK)
 
 
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def book_appointment(request):
+    try:
+        serializer = BookAppointmentSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data)
+        else:
+            error_details = serializer.errors.get('non_field_errors', [])
+            error_codes = [error.code for error in error_details]
+            if(error_codes[0] == 'unique'):
+                return Response({"status":"Fail","message":"An appointment already exists for this doctor at this time."}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) 
+
+    except Exception as e:
+        return Response({"message": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR) 
